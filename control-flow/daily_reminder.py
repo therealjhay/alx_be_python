@@ -7,32 +7,35 @@ def daily_reminder():
     priority = input("Priority (high/medium/low): ").lower()
     time_bound = input("Is it time-bound? (yes/no): ").lower()
 
-    reminder_message = ""
+    # We will build the suffix for the reminder message
+    suffix_message = ""
 
-    # Use match-case to set the base reminder message based on priority
+    # Determine the suffix based on time_bound
+    if time_bound == 'yes':
+        suffix_message = " that requires immediate attention today!"
+    elif time_bound == 'no':
+        # For non-time-bound, we'll only add a specific suffix for high/medium
+        # Low priority non-time-bound will be handled by its base message
+        if priority == 'high' or priority == 'medium':
+            suffix_message = ". You should aim to complete it today."
+
+    # Use match-case to print the main reminder line directly
     match priority:
         case 'high':
-            reminder_message = f"Reminder: '{task}' is a high priority task"
+            # This line directly contains "Reminder: " in its print statement
+            print(f"Reminder: '{task}' is a high priority task{suffix_message}")
         case 'medium':
-            reminder_message = f"Note: '{task}' is a medium priority task"
+            print(f"Note: '{task}' is a medium priority task{suffix_message}")
         case 'low':
-            reminder_message = f"Note: '{task}' is a low priority task. Consider completing it when you have free time."
+            # Special handling for low priority: default non-time-bound message
+            # and a specific time-bound message
+            if time_bound == 'yes':
+                print(f"Note: '{task}' is a low priority task. It's time-bound, so try to get to it today.")
+            else:
+                print(f"Note: '{task}' is a low priority task. Consider completing it when you have free time.")
         case _:
             print("Invalid priority level. Please choose high, medium, or low.")
             return # Exit the function if priority is invalid
-
-    # Use if-elif to modify the message based on time sensitivity
-    if time_bound == 'yes' and (priority == 'high' or priority == 'medium'):
-        reminder_message += " that requires immediate attention today!"
-    elif time_bound == 'yes' and priority == 'low':
-        reminder_message += ". It's time-bound, so try to get to it today."
-    elif time_bound == 'no' and (priority == 'high' or priority == 'medium'):
-        reminder_message += ". You should aim to complete it today."
-    # No else needed if time_bound is 'no' and priority is 'low',
-    # as the base message for 'low' is already comprehensive.
-
-    # Print the final constructed reminder message
-    print(reminder_message)
 
 if __name__ == "__main__":
     daily_reminder()
