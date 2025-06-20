@@ -1,4 +1,4 @@
-# Base class
+# Base Class
 class Book:
     def __init__(self, title, author):
         self.title = title
@@ -7,8 +7,11 @@ class Book:
     def get_details(self):
         return f"Book: {self.title} by {self.author}"
 
+    def __str__(self):
+        return self.get_details()
 
-# Derived class for EBooks
+
+# Derived Class - EBook
 class EBook(Book):
     def __init__(self, title, author, file_size):
         super().__init__(title, author)
@@ -17,8 +20,11 @@ class EBook(Book):
     def get_details(self):
         return f"EBook: {self.title} by {self.author}, File Size: {self.file_size}KB"
 
+    def __str__(self):
+        return self.get_details()
 
-# Derived class for PrintBooks
+
+# Derived Class - PrintBook
 class PrintBook(Book):
     def __init__(self, title, author, page_count):
         super().__init__(title, author)
@@ -27,8 +33,11 @@ class PrintBook(Book):
     def get_details(self):
         return f"PrintBook: {self.title} by {self.author}, Page Count: {self.page_count}"
 
+    def __str__(self):
+        return self.get_details()
 
-# Library class using composition
+
+# Composition - Library Class
 class Library:
     def __init__(self):
         self.books = []
@@ -37,8 +46,8 @@ class Library:
         if isinstance(book, Book):
             self.books.append(book)
         else:
-            raise TypeError("Only Book or subclasses of Book can be added")
+            raise TypeError("Only instances of Book or its subclasses can be added.")
 
     def list_books(self):
         for book in self.books:
-            print(book.get_details())
+            print(book)  # Uses __str__ automatically
